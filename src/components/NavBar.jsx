@@ -30,7 +30,7 @@ const NavBar = () => {
 
   return (
     <header className="relative container mx-auto flex h-[54px] justify-between px-5 py-3 sm:px-0">
-      <a href="Início">
+      <a href="/">
         <img
           className="relative -top-[10%] h-[120%]"
           src={logoIcon}
@@ -44,19 +44,19 @@ const NavBar = () => {
             <div className="flex w-full flex-col justify-between rounded-lg bg-white p-3 md:flex-row md:bg-transparent">
               <nav className="flex items-center gap-3">
                 <ul className="flex flex-col gap-3 md:flex-row md:items-center md:gap-8">
-                  {navLinks.map(({ label }) => (
+                  {navLinks.map(({ label, href }) => (
                     <li
                       className="text-black duration-500 hover:text-neutral-800 md:text-white md:hover:text-neutral-400"
                       key={label}
                     >
-                      <a href={label}>{label}</a>
+                      <a href={href}>{label}</a>
                     </li>
                   ))}
                 </ul>
               </nav>
 
               <div className="mt-5 flex h-full items-center gap-5 md:mt-0">
-                <button className="h-6 w-6 md:h-7 md:w-7">
+                <button className="h-6 w-6 md:h-7 md:w-7" aria-label="Pesquisar">
                   <svg viewBox="0 0 512 512" className="h-full w-full">
                     <path
                       className="stroke-black md:stroke-white"
@@ -83,7 +83,7 @@ const NavBar = () => {
                   </svg>
                 </button>
 
-                <button className="h-6 w-6 md:h-7 md:w-7">
+                <button className="h-6 w-6 md:h-7 md:w-7" aria-label="Carrinho de compras">
                   <svg viewBox="0 0 48 48" className="h-full w-full">
                     <path
                       className="fill-black md:fill-white"
@@ -110,6 +110,8 @@ const NavBar = () => {
         <button
           className="md:hidden"
           onClick={() => setMenuIsOpen((prev) => !prev)}
+          aria-label="Menu"
+          aria-expanded={menuIsOpen}
         >
           <Lottie
             lottieRef={lottieRef}

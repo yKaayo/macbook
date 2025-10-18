@@ -1,25 +1,31 @@
 {
-  "hash": "1d45031f",
+  "hash": "c83670af",
   "configHash": "7277c18f",
-  "lockfileHash": "72ead59b",
-  "browserHash": "b204323a",
+  "lockfileHash": "0b9bf6f6",
+  "browserHash": "56c1623d",
   "optimized": {
     "react": {
       "src": "../../node_modules/.pnpm/react@19.2.0/node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "c522720f",
+      "fileHash": "a4f8c407",
       "needsInterop": true
     },
     "react-dom/client": {
       "src": "../../node_modules/.pnpm/react-dom@19.2.0_react@19.2.0/node_modules/react-dom/client.js",
       "file": "react-dom_client.js",
-      "fileHash": "e2908c8c",
+      "fileHash": "28e36e19",
       "needsInterop": true
+    },
+    "lottie-react": {
+      "src": "../../node_modules/.pnpm/lottie-react@2.4.1_react-do_ed71d3610590753579d1159dfa1ea755/node_modules/lottie-react/build/index.es.js",
+      "file": "lottie-react.js",
+      "fileHash": "99304c13",
+      "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-K7PF5JBE": {
-      "file": "chunk-K7PF5JBE.js"
+    "chunk-XUDZQHFR": {
+      "file": "chunk-XUDZQHFR.js"
     }
   }
 }

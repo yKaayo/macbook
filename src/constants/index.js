@@ -1,8 +1,8 @@
 export const navLinks = [
-  { label: "Início" },
-  { label: "Mac" },
-  { label: "Chip" },
-  { label: "Gráfico" },
-  { label: "Sistema" },
-  { label: "Características" },
+  { label: "Início", href: "/" },
+  { label: "Mac", href: "/mac" },
+  { label: "Chip", href: "/chip" },
+  { label: "Gráfico", href: "/grafico" },
+  { label: "Sistema", href: "/sistema" },
+  { label: "Características", href: "/caracteristicas" },
 ];

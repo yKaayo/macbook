@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+button {
+  @apply cursor-pointer;
+}
+
+p {
+  @apply text-white/75;
+}

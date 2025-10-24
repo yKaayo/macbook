@@ -11,7 +11,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <main className="container mx-auto flex min-h-[calc(100dvh-54px)] flex-col items-center justify-center gap-3 px-3 md:gap-5 md:px-0">
+    <main className="container mx-auto flex min-h-dvh flex-col items-center justify-center gap-3 px-3 pt-[56px] md:gap-5 md:px-0">
       <h2 className="text-[clamp(16px,1.8vw,3rem)] font-semibold text-white">
         Macbook Pro
       </h2>

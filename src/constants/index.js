@@ -1,8 +1,27 @@
 export const navLinks = [
-  { label: "Início", href: "/" },
-  { label: "Mac", href: "/mac" },
-  { label: "Chip", href: "/chip" },
-  { label: "Gráfico", href: "/grafico" },
-  { label: "Sistema", href: "/sistema" },
-  { label: "Características", href: "/caracteristicas" },
+  { label: "Início", href: "#" },
+  { label: "Mac", href: "#mac" },
+  { label: "Chip", href: "#chip" },
+  { label: "Gráfico", href: "#grafico" },
+  { label: "Sistema", href: "#sistema" },
+  { label: "Características", href: "#caracteristicas" },
+];
+
+export const noChangesParts = [
+  "Object_84",
+  "Object_37",
+  "Object_34",
+  "Object_12",
+  "Object_80",
+  "Object_35",
+  "Object_36",
+  "Object_13",
+  "Object_125",
+  "Object_76",
+  "Object_33",
+  "Object_42",
+  "Object_58",
+  "Object_52",
+  "Object_21",
+  "Object_10",
 ];

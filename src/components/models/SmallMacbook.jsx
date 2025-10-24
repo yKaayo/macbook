@@ -17,9 +17,7 @@ import textureImg from "../../assets/images/screen.webp";
 import { noChangesParts } from "../../constants";
 
 export default function SmallMacbookModel(props) {
-  const { nodes, materials, scene } = useGLTF(
-    "./src/assets/models/macbook-14.glb",
-  );
+  const { nodes, materials, scene } = useGLTF("/models/macbook-14.glb");
 
   const { selectedColor } = useSelector((state) => state.laptop);
 
@@ -138,4 +136,4 @@ export default function SmallMacbookModel(props) {
   );
 }
 
-useGLTF.preload("./src/assets/models/macbook-14.glb");
+useGLTF.preload("/models/macbook-14.glb");

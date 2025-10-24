@@ -1,14 +1,22 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App.jsx";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
+import gsap from "gsap";
 
-gsap.registerPlugin(useGSAP);
+// Redux
+import { store } from "./store";
+import { Provider } from "react-redux";
 
-createRoot(document.getElementById('root')).render(
+gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
+
+createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </StrictMode>,
-)
+);

@@ -138,4 +138,4 @@ export default function LargeMacbookModel(props) {
   );
 }
 
-useGLTF.preload("/macbook-16.glb");
+useGLTF.preload("./src/assets/models/macbook-16.glb");

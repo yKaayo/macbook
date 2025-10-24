@@ -15,7 +15,10 @@ import logoIcon from "../assets/icons/logo.svg";
 const NavBar = () => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isAnimating, setIsAnimating] = useState(false); // ← Bloqueia durante animação
+  
   const lottieRef = useRef(null);
+  const menuRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -29,6 +32,7 @@ const NavBar = () => {
     };
   }, []);
 
+  // Sincroniza a animação do Lottie com o menu
   useEffect(() => {
     if (!lottieRef.current) return;
 
@@ -43,33 +47,52 @@ const NavBar = () => {
     }
   }, [menuIsOpen]);
 
-  const menuRef = useRef(null);
-
   useGSAP(() => {
     if (!menuRef.current || !isMobile) return;
 
+    setIsAnimating(true); // ← Bloqueia cliques
+
     if (menuIsOpen) {
+      // Define estado inicial antes de animar
+      gsap.set(menuRef.current, {
+        display: "flex",
+        opacity: 0,
+        y: -20,
+      });
+
+      // Anima abertura
       gsap.to(menuRef.current, {
         opacity: 1,
         y: 0,
-        duration: 0.3,
+        duration: 0.5, // ← Aumentado para combinar com o Lottie
         ease: "power2.out",
         pointerEvents: "auto",
+        onComplete: () => setIsAnimating(false), // ← Libera após animação
       });
     } else {
+      // Anima fechamento
       gsap.to(menuRef.current, {
         opacity: 0,
-        y: -8,
-        duration: 0.3,
+        y: -20,
+        duration: 0.4, // ← Duração do fechamento
         ease: "power2.in",
         pointerEvents: "none",
+        onComplete: () => {
+          gsap.set(menuRef.current, { display: "none" });
+          setIsAnimating(false); // ← Libera após animação
+        },
       });
     }
   }, [menuIsOpen, isMobile]);
 
+  const handleMenuToggle = () => {
+    if (isAnimating) return; // ← Bloqueia se estiver animando
+    setMenuIsOpen((prev) => !prev);
+  };
+
   return (
-    <div className="fixed w-full">
-      <header className="relative container mx-auto flex h-[54px] justify-between px-5 py-3 sm:px-0">
+    <div className="fixed z-10 w-full">
+      <header className="relative container mx-auto flex h-[54px] justify-between bg-gradient-to-b from-black to-transparent px-5 py-3 sm:px-0">
         <a href="#">
           <img
             className="relative -top-[10%] h-[120%]"
@@ -80,7 +103,10 @@ const NavBar = () => {
 
         <div
           ref={menuRef}
-          className={`absolute top-full left-0 z-1 flex w-full items-center px-3 md:relative md:top-0 md:w-4/5 md:px-0 lg:w-[72%] xl:w-4/6 ${!menuIsOpen && (!isMobile ? "" : "hidden")}`}
+          className={`absolute top-full left-0 z-1 w-full items-center px-3 md:relative md:top-0 md:flex md:w-4/5 md:px-0 lg:w-[72%] xl:w-4/6 ${
+            !menuIsOpen && isMobile ? "hidden" : "flex"
+          }`}
+          style={isMobile ? { opacity: 0, transform: "translateY(-20px)" } : {}}
         >
           <div className="flex w-full flex-col justify-between rounded-lg bg-white p-3 md:flex-row md:bg-transparent">
             <nav className="flex items-center gap-3">
@@ -150,8 +176,9 @@ const NavBar = () => {
         </div>
 
         <button
-          className="md:hidden"
-          onClick={() => setMenuIsOpen((prev) => !prev)}
+          className={`md:hidden transition-opacity ${isAnimating ? "opacity-50 cursor-not-allowed" : ""}`}
+          onClick={handleMenuToggle}
+          disabled={isAnimating} // ← Desabilita durante animação
           aria-label="Menu"
           aria-expanded={menuIsOpen}
         >

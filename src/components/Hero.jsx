@@ -47,6 +47,7 @@ const Hero = () => {
         ref={videoRef}
         src={heroVideo}
         autoPlay
+        preload="auto"
         playsInline
         muted
         className="md:-my-[5vw]"

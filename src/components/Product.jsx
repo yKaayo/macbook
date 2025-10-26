@@ -31,9 +31,27 @@ const Product = () => {
   };
 
   return (
-    <section id="mac" className="container mx-auto min-h-dvh pt-[56px] relative">
+    <section
+      id="mac"
+      className="relative container mx-auto min-h-dvh pt-[56px]"
+    >
+      <h3 className="absolute top-10 left-5 w-4/5 text-3xl font-semibold text-balance text-white md:text-5xl">
+        Dê uma olhada mais de perto
+      </h3>
+
+      {/* 3D */}
+      <div className="h-[calc(100dvh-56px)] w-full">
+        <Canvas>
+          <StudioLights />
+          <ModelSwitcher />
+        </Canvas>
+      </div>
+      {/* 3D - End */}
+
       {/* Controller */}
-      <div className="absolute bottom-5 left-0 z-1 flex w-full justify-center">
+      <div className="absolute bottom-10 left-0 z-1 flex w-full flex-col items-center">
+        <p className="mb-3">Macbook Pro {selectedBtn.size}</p>
+
         <div className="flex items-center gap-5">
           <div className="flex w-fit items-center justify-center gap-3 rounded-full bg-neutral-800 px-2.5 py-2">
             {colors.map((color, i) => (
@@ -58,15 +76,6 @@ const Product = () => {
         </div>
       </div>
       {/* Controller - End */}
-
-      {/* 3D */}
-      <div className="h-[calc(100dvh-56px)] w-full">
-        <Canvas>
-          <StudioLights />
-          <ModelSwitcher />
-        </Canvas>
-      </div>
-      {/* 3D - End */}
     </section>
   );
 };

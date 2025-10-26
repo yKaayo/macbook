@@ -2,6 +2,7 @@
 import Hero from "./components/Hero";
 import NavBar from "./components/NavBar";
 import Product from "./components/Product";
+import Showcase from "./components/Showcase";
 
 const App = () => {
   return (
@@ -9,6 +10,7 @@ const App = () => {
       <NavBar />
       <Hero />
       <Product />
+      <Showcase />
     </div>
   );
 };

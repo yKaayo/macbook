@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import LargeMacbookModel from "../models/LargeMacbook";
 import SmallMacbookModel from "../models/SmallMacbook";
 
-const POSITION = [0, -1, 0];
+const POSITION = [0, -0.85, 0];
 const ROTATION = [Math.PI / 7, 0, 0];
 
 const ANIMATION_DURATION = 1;

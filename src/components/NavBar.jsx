@@ -15,8 +15,8 @@ import logoIcon from "../assets/icons/logo.svg";
 const NavBar = () => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const [isAnimating, setIsAnimating] = useState(false); // ← Bloqueia durante animação
-  
+  const [isAnimating, setIsAnimating] = useState(false);
+
   const lottieRef = useRef(null);
   const menuRef = useRef(null);
 
@@ -32,7 +32,6 @@ const NavBar = () => {
     };
   }, []);
 
-  // Sincroniza a animação do Lottie com o menu
   useEffect(() => {
     if (!lottieRef.current) return;
 
@@ -50,49 +49,46 @@ const NavBar = () => {
   useGSAP(() => {
     if (!menuRef.current || !isMobile) return;
 
-    setIsAnimating(true); // ← Bloqueia cliques
+    setIsAnimating(true);
 
     if (menuIsOpen) {
-      // Define estado inicial antes de animar
       gsap.set(menuRef.current, {
         display: "flex",
         opacity: 0,
         y: -20,
       });
 
-      // Anima abertura
       gsap.to(menuRef.current, {
         opacity: 1,
         y: 0,
-        duration: 0.5, // ← Aumentado para combinar com o Lottie
+        duration: 0.5,
         ease: "power2.out",
         pointerEvents: "auto",
-        onComplete: () => setIsAnimating(false), // ← Libera após animação
+        onComplete: () => setIsAnimating(false),
       });
     } else {
-      // Anima fechamento
       gsap.to(menuRef.current, {
         opacity: 0,
         y: -20,
-        duration: 0.4, // ← Duração do fechamento
+        duration: 0.4,
         ease: "power2.in",
         pointerEvents: "none",
         onComplete: () => {
           gsap.set(menuRef.current, { display: "none" });
-          setIsAnimating(false); // ← Libera após animação
+          setIsAnimating(false);
         },
       });
     }
   }, [menuIsOpen, isMobile]);
 
   const handleMenuToggle = () => {
-    if (isAnimating) return; // ← Bloqueia se estiver animando
+    if (isAnimating) return;
     setMenuIsOpen((prev) => !prev);
   };
 
   return (
-    <div className="fixed z-10 w-full">
-      <header className="relative container mx-auto flex h-[54px] justify-between bg-gradient-to-b from-black to-transparent px-5 py-3 sm:px-0">
+    <div className="fixed z-10 w-full bg-gradient-to-b from-black to-transparent">
+      <header className="relative container mx-auto flex h-[54px] justify-between px-5 py-3 sm:px-0">
         <a href="#">
           <img
             className="relative -top-[10%] h-[120%]"
@@ -176,9 +172,9 @@ const NavBar = () => {
         </div>
 
         <button
-          className={`md:hidden transition-opacity ${isAnimating ? "opacity-50 cursor-not-allowed" : ""}`}
+          className={`transition-opacity md:hidden ${isAnimating ? "cursor-not-allowed opacity-50" : ""}`}
           onClick={handleMenuToggle}
-          disabled={isAnimating} // ← Desabilita durante animação
+          disabled={isAnimating}
           aria-label="Menu"
           aria-expanded={menuIsOpen}
         >

@@ -55,7 +55,7 @@ const Showcase = () => {
     if (!isMobile && scale > 0) {
       const timeline = gsap.timeline({
         scrollTrigger: {
-          trigger: "#showcase",
+          trigger: "#chip",
           start: "top top",
           end: "bottom top",
           scrub: true,
@@ -102,7 +102,7 @@ const Showcase = () => {
   }, [isMobile, scale]);
 
   return (
-    <section id="showcase">
+    <section id="chip">
       <div
         id="contentMask"
         className="relative flex items-end justify-center overflow-hidden md:h-dvh"

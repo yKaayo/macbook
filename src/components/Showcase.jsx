@@ -95,6 +95,7 @@ const Showcase = () => {
           {
             scale: 1.2,
             ease: "power2.inOut",
+            duration: 30,
           },
           "<",
         );

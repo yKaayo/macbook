@@ -1,4 +1,5 @@
 // Components
+import Divisor from "./components/Divisor";
 import Graphic from "./components/Graphic";
 import Hero from "./components/Hero";
 import NavBar from "./components/NavBar";
@@ -10,8 +11,11 @@ const App = () => {
     <div className="bg-black overflow-hidden">
       <NavBar />
       <Hero />
+      <Divisor />
       <Graphic />
+      <Divisor />
       <Product />
+      <Divisor />
       <Showcase />
 
     </div>

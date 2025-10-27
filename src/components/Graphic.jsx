@@ -36,7 +36,7 @@ const Graphic = () => {
       scrollTrigger: {
         trigger: "#grafico",
         start: "top top",
-        end: "+=100%",
+        end: "+=150%",
         scrub: true,
         pin: true,
       },

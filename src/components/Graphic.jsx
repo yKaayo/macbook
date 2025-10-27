@@ -1,5 +1,6 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { useRef } from "react";
 import { useMediaQuery } from "react-responsive";
 
 // Images
@@ -9,26 +10,27 @@ import graphicImg3 from "../assets/images/graphicImg3.webp";
 
 const Graphic = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
+  const imgsRef = useRef([]);
 
   const images = [graphicImg1, graphicImg2, graphicImg3];
 
   useGSAP(() => {
-    if (isMobile) return;
+    if (isMobile || imgsRef.current.length === 0) return;
 
-    gsap.set("#grafico .graphic-img", {
+    gsap.set(imgsRef.current, {
       opacity: 0.5,
       scale: 0.8,
       y: 200,
     });
 
-    gsap.set("#grafico .graphic-img:nth-child(1)", {
+    gsap.set(imgsRef.current[0], {
       x: -100,
     });
-    gsap.set("#grafico .graphic-img:nth-child(2)", {
+    gsap.set(imgsRef.current[1], {
       opacity: 1,
       y: 150,
     });
-    gsap.set("#grafico .graphic-img:nth-child(3)", {
+    gsap.set(imgsRef.current[2], {
       x: 100,
     });
 
@@ -44,7 +46,7 @@ const Graphic = () => {
 
     timeline
       .to(
-        "#grafico .graphic-img:nth-child(1)",
+        imgsRef.current[0],
         {
           x: "-50%",
           y: 0,
@@ -56,7 +58,7 @@ const Graphic = () => {
         0,
       )
       .to(
-        "#grafico .graphic-img:nth-child(2)",
+        imgsRef.current[1],
         {
           x: 0,
           y: 0,
@@ -68,7 +70,7 @@ const Graphic = () => {
         0,
       )
       .to(
-        "#grafico .graphic-img:nth-child(3)",
+        imgsRef.current[2],
         {
           x: "50%",
           y: 0,
@@ -103,10 +105,12 @@ const Graphic = () => {
       <div className="relative grid h-full w-full grid-cols-2 md:block md:place-items-center">
         {images.map((image, i) => (
           <img
+            ref={(el) => (imgsRef.current[i] = el)}
             key={i}
             src={image}
             alt="Imagens com alta definição"
-            className={`graphic-img object-cover md:absolute md:h-full md:w-auto ${i === 0 && "ms-auto -rotate-12 md:ms-0 md:rotate-0"} ${i === 1 && "absolute top-1/2 left-1/2 z-1 h-full w-fit -translate-x-1/2 -translate-y-1/2 md:top-auto md:bottom-0 md:left-auto md:translate-x-0 md:translate-y-0"} ${i === 2 && "rotate-12 md:rotate-0"} `}          />
+            className={`object-cover md:absolute md:h-full md:w-auto ${i === 0 && "ms-auto -rotate-12 md:ms-0 md:rotate-0"} ${i === 1 && "absolute top-1/2 left-1/2 z-1 h-full w-fit -translate-x-1/2 -translate-y-1/2 md:top-auto md:bottom-0 md:left-auto md:translate-x-0 md:translate-y-0"} ${i === 2 && "rotate-12 md:rotate-0"} `}
+          />
         ))}
       </div>
 

@@ -41,7 +41,7 @@ const Product = () => {
 
       {/* 3D */}
       <div className="h-[calc(100dvh-56px)] w-full">
-        <Canvas>
+        <Canvas style={{ touchAction: "none" }}>
           <StudioLights />
           <ModelSwitcher />
         </Canvas>

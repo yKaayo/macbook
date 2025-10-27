@@ -95,6 +95,7 @@ const Showcase = () => {
           {
             scale: 1.2,
             ease: "power2.inOut",
+            duration: 30,
           },
           "<",
         );
@@ -105,7 +106,7 @@ const Showcase = () => {
     <section id="chip">
       <div
         id="contentMask"
-        className="relative flex items-end justify-center overflow-hidden md:h-dvh"
+        className="relative flex items-end justify-center overflow-hidden md:h-screen"
       >
         <video
           id="videoMasked"

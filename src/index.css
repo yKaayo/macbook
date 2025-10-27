@@ -11,3 +11,7 @@ button {
 p {
   @apply text-white/75;
 }
+
+h3 {
+  @apply text-3xl font-semibold text-balance text-white md:text-5xl;
+}

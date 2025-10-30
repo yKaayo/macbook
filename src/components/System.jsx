@@ -7,7 +7,7 @@ import { Canvas } from "@react-three/fiber";
 
 // Components
 import StudioLights from "./three/StudioLights";
-import MacbookModel from "./models/macbook";
+import MacbookModel from "./models/Macbook";
 
 // Constants
 import { features } from "../constants/index";

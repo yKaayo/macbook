@@ -1,5 +1,6 @@
 // Components
 import Divisor from "./components/Divisor";
+import Footer from "./components/Footer";
 import Graphic from "./components/Graphic";
 import Hero from "./components/Hero";
 import NavBar from "./components/NavBar";
@@ -19,6 +20,7 @@ const App = () => {
       <Divisor />
       <Showcase />
       <System />
+      <Footer />
     </div>
   );
 };

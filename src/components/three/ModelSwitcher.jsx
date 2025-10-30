@@ -10,9 +10,6 @@ import { useSelector } from "react-redux";
 import LargeMacbookModel from "../models/LargeMacbook";
 import SmallMacbookModel from "../models/SmallMacbook";
 
-const POSITION = [0, -0.85, 0];
-const ROTATION = [Math.PI / 7, 0, 0];
-
 const ANIMATION_DURATION = 1;
 const OFFSET_DISTANCE = 5;
 
@@ -20,7 +17,9 @@ const ModelSwitcher = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const isFirstRender = useRef(true);
 
-  const { selectedScale } = useSelector((state) => state.laptop);
+  const { selectedScale, position, rotation } = useSelector(
+    (state) => state.laptop,
+  );
   const showLargeMacbook = selectedScale === 0.08 || selectedScale === 0.05;
 
   const smallMacbookRef = useRef(null);
@@ -95,16 +94,16 @@ const ModelSwitcher = () => {
       <group ref={smallMacbookRef}>
         <SmallMacbookModel
           scale={isMobile ? 0.045 : 0.085}
-          position={POSITION}
-          rotation={ROTATION}
+          position={position}
+          rotation={rotation}
         />
       </group>
 
       <group ref={largeMacbookRef}>
         <LargeMacbookModel
           scale={isMobile ? 0.06 : 0.105}
-          position={POSITION}
-          rotation={ROTATION}
+          position={position}
+          rotation={rotation}
         />
       </group>
     </PresentationControls>

@@ -91,7 +91,7 @@ const Graphic = () => {
           ease: "power2.in",
         },
       );
-  }, [isMobile]);
+  }, [isMobile, imgsRef.current]);
 
   return (
     <section

@@ -52,6 +52,7 @@ const System = () => {
         end: "+=3600",
         scrub: 1,
         pin: true,
+        pinSpacing: false,
       },
     });
 
@@ -92,14 +93,14 @@ const System = () => {
           {features.map((feature, i) => (
             <div
               key={i}
-              className={`absolute w-full md:w-[35%] px-5 md:px-0 text-white box${i + 1} top-1/4 md:top-1/2 -translate-y-1/2 opacity-0 ${feature.styles}`}
+              className={`absolute w-full px-5 text-white md:w-[35%] md:px-0 box${i + 1} top-1/4 -translate-y-1/2 opacity-0 md:top-1/2 ${feature.styles}`}
             >
               <img
                 src={feature.icon}
                 alt={feature.highlight}
                 className="mb-2 size-8 md:size-10"
               />
-              <h4 className="mb-1 text-lg  md:text-2xl font-semibold">
+              <h4 className="mb-1 text-lg font-semibold md:text-2xl">
                 {feature.highlight}
               </h4>
               <p className="text-sm md:text-base">{feature.text}</p>

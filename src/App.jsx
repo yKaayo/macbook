@@ -1,4 +1,5 @@
 // Components
+import Characteristics from "./components/Characteristics";
 import Divisor from "./components/Divisor";
 import Footer from "./components/Footer";
 import Graphic from "./components/Graphic";
@@ -16,10 +17,13 @@ const App = () => {
       <Divisor />
       <Graphic />
       <Divisor />
-      <Product />
       <Divisor />
+      <Product />
       <Showcase />
+      <div className="md:h-[1100px]" />
       <System />
+      <div className="h-[3600px]" />
+      <Characteristics />
       <Footer />
     </div>
   );

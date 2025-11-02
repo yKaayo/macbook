@@ -1,6 +1,6 @@
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 
 // Images
@@ -11,11 +11,41 @@ import graphicImg3 from "../assets/images/graphicImg3.webp";
 const Graphic = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const imgsRef = useRef([]);
-
+  const [imagesLoaded, setImagesLoaded] = useState(false);
   const images = [graphicImg1, graphicImg2, graphicImg3];
 
+  useEffect(() => {
+    if (isMobile) {
+      setImagesLoaded(true);
+      return;
+    }
+
+    let loadedCount = 0;
+    const totalImages = images.length;
+
+    const imagePromises = images.map((src) => {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          loadedCount++;
+          if (loadedCount === totalImages) {
+            setImagesLoaded(true);
+          }
+          resolve();
+        };
+        img.onerror = reject;
+        img.src = src;
+      });
+    });
+
+    Promise.all(imagePromises).catch((error) => {
+      console.error("Erro ao carregar imagens:", error);
+      setImagesLoaded(true);
+    });
+  }, [isMobile]);
+
   useGSAP(() => {
-    if (isMobile || imgsRef.current.length === 0) return;
+    if (isMobile || imgsRef.current.length === 0 || !imagesLoaded) return;
 
     gsap.set(imgsRef.current, {
       opacity: 0.5,
@@ -91,7 +121,7 @@ const Graphic = () => {
           ease: "power2.in",
         },
       );
-  }, [isMobile, imgsRef.current]);
+  }, [isMobile, imagesLoaded]);
 
   return (
     <section
@@ -103,12 +133,18 @@ const Graphic = () => {
       </h3>
 
       <div className="relative grid h-full w-full grid-cols-2 md:block md:place-items-center">
+        {!imagesLoaded && !isMobile && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-white">Carregando...</div>
+          </div>
+        )}
         {images.map((image, i) => (
           <img
             ref={(el) => (imgsRef.current[i] = el)}
             key={i}
             src={image}
             alt="Imagens com alta definição"
+            loading="eager"
             className={`object-cover md:absolute md:h-full md:w-auto ${i === 0 && "ms-auto -rotate-12 md:ms-0 md:rotate-0"} ${i === 1 && "absolute top-1/2 left-1/2 z-1 h-full w-fit -translate-x-1/2 -translate-y-1/2 md:top-auto md:bottom-0 md:left-auto md:translate-x-0 md:translate-y-0"} ${i === 2 && "rotate-12 md:rotate-0"} `}
           />
         ))}

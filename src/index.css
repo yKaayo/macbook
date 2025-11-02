@@ -15,3 +15,34 @@ p {
 h3 {
   @apply text-3xl font-semibold text-balance text-white md:text-5xl;
 }
+
+.characteristicsCard {
+  @apply rounded-lg w-full;
+
+  & .text {
+    @apply text-2xl font-semibold text-white;
+  }
+}
+
+@keyframes gradient-rotate {
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 100% 50%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient-rotate {
+  background-size: 300% 300%;
+  animation: gradient-rotate 3s ease infinite;
+}

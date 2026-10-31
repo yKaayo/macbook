@@ -53,6 +53,7 @@ const System = () => {
         scrub: 1,
         pin: true,
         pinSpacing: false,
+        refreshPriority: 1,
       },
     });
 

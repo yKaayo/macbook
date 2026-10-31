@@ -14,6 +14,9 @@ const Hero = ({ onReady }) => {
     if (video.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA) {
       onReady();
     }
+
+    const fallback = setTimeout(onReady, 6000);
+    return () => clearTimeout(fallback);
   }, [onReady]);
 
   return (

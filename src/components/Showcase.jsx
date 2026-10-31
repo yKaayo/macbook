@@ -1,7 +1,7 @@
 import { useMediaQuery } from "react-responsive";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 // Image
 import chipImg from "../assets/images/mask-logo.svg";
@@ -10,99 +10,65 @@ import chipImg from "../assets/images/mask-logo.svg";
 import gameVideo from "../assets/videos/game.webm";
 
 const SCALE_DIVISOR = 13.5;
+const IMG_SCALE = 1.2;
 
 const Showcase = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
 
-  const [scale, setScale] = useState(0);
   const [leftHeight, setLeftHeight] = useState(0);
   const chipMaskRef = useRef(null);
 
+  const calculateLeftHeight = useCallback(() => {
+    if (!chipMaskRef.current) return;
+
+    const imgHeight = Math.round(chipMaskRef.current.offsetHeight * IMG_SCALE);
+    setLeftHeight(window.innerHeight - imgHeight / 2);
+  }, []);
+
   useEffect(() => {
-    if (!isMobile) {
-      const screenWidth = window.innerWidth;
+    if (isMobile) return;
 
-      const calculateScale = () => {
-        setScale(Math.max(screenWidth / SCALE_DIVISOR, 3));
-      };
-
-      const calculateLeftHeight = () => {
-        if (chipMaskRef.current) {
-          const screenHeight = window.innerHeight;
-
-          setLeftHeight(
-            screenHeight -
-              Math.round(chipMaskRef.current.getBoundingClientRect().height) /
-                2,
-          );
-        }
-      };
-
-      calculateScale();
-      calculateLeftHeight();
-
-      const handleResize = () => {
-        calculateScale();
-        calculateLeftHeight();
-      };
-
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }
-  }, [isMobile]);
+    calculateLeftHeight();
+    window.addEventListener("resize", calculateLeftHeight);
+    return () => window.removeEventListener("resize", calculateLeftHeight);
+  }, [isMobile, calculateLeftHeight]);
 
   useGSAP(() => {
-    if (!isMobile && scale > 0) {
-      const timeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: "#chip",
-          start: "top top",
-          end: "bottom top",
-          scrub: 0.8,
-          pin: true,
-          invalidateOnRefresh: true,
-        },
-      });
+    const mm = gsap.matchMedia();
 
-      timeline
+    mm.add("(min-width: 769px)", () => {
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: "#chip",
+            start: "top top",
+            end: "bottom top",
+            scrub: 0.8,
+            pin: true,
+            invalidateOnRefresh: true,
+            refreshPriority: 2,
+          },
+        })
         .fromTo(
           "#videoMasked",
-          {
-            height: "85%",
-            width: "95%",
-            borderRadius: "20px 20px 0 0",
-          },
-          {
-            height: "100%",
-            width: "100%",
-            borderRadius: "0px",
-            duration: 30,
-          },
+          { height: "85%", width: "95%", borderRadius: "20px 20px 0 0" },
+          { height: "100%", width: "100%", borderRadius: "0px", duration: 30 },
         )
         .fromTo(
           "#contentMask",
-          {
-            alignItems: "end",
-          },
-          {
-            alignItems: "center",
-            duration: 0.5,
-          },
+          { alignItems: "end" },
+          { alignItems: "center", duration: 0.5 },
         )
         .fromTo(
           "#chipMask",
-          {
-            scale: scale,
-          },
-          {
-            scale: 1.2,
-            ease: "power2.inOut",
-            duration: 30,
-          },
+          { scale: () => Math.max(window.innerWidth / SCALE_DIVISOR, 3) },
+          { scale: 1.2, ease: "power2.inOut", duration: 30 },
           "<",
         );
-    }
-  }, [isMobile, scale]);
+    });
+
+    return () => mm.revert();
+  });
 
   return (
     <section id="chip">
@@ -136,9 +102,10 @@ const Showcase = () => {
           ></div>
 
           <img
-            style={{ scale: 1.2 }}
+            style={{ scale: IMG_SCALE }}
             src={chipImg}
             ref={chipMaskRef}
+            onLoad={calculateLeftHeight}
             alt="Macbook chip logo"
           />
 

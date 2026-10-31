@@ -3,12 +3,18 @@ import { useEffect, useRef } from "react";
 // Video
 import heroVideo from "../assets/videos/hero.mp4";
 
-const Hero = () => {
+const Hero = ({ onReady }) => {
   const videoRef = useRef(null);
 
   useEffect(() => {
-    if (videoRef.current) videoRef.current.playbackRate = 2.4;
-  }, []);
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.playbackRate = 2.4;
+    if (video.readyState >= HTMLMediaElement.HAVE_ENOUGH_DATA) {
+      onReady();
+    }
+  }, [onReady]);
 
   return (
     <main className="container mx-auto flex min-h-dvh flex-col items-center justify-center gap-3 px-3 pt-[56px] md:gap-5 md:px-0">
@@ -50,6 +56,8 @@ const Hero = () => {
         preload="auto"
         playsInline
         muted
+        onCanPlayThrough={onReady}
+        onError={onReady}
         className="md:-my-[5vw]"
       />
 

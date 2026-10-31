@@ -58,9 +58,9 @@ const Showcase = () => {
           trigger: "#chip",
           start: "top top",
           end: "bottom top",
-          scrub: true,
+          scrub: 0.8,
           pin: true,
-          pinSpacing: false
+          invalidateOnRefresh: true,
         },
       });
 
@@ -151,7 +151,7 @@ const Showcase = () => {
 
       <div
         id="chipContent"
-        className="container mx-auto px-5 py-20 sm:px-0 md:grid md:grid-cols-2 md:gap-5"
+        className="container mx-auto px-5 py-20 md:grid md:grid-cols-2 md:gap-5"
       >
         <div className="mb-20 md:mb-0">
           <h2 className="text-3xl font-semibold text-white">

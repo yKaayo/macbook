@@ -81,11 +81,12 @@ const System = () => {
   }, [groupObject]);
 
   return (
-    <section id="sistema" className="relative pt-[56px]">
+    <section id="sistema" className="relative">
       <h2>See it all in a new light.</h2>
 
       <div ref={containerRef} className="relative h-[calc(100dvh-56px)] w-full">
         <Canvas style={{ touchAction: "none" }}>
+          <ambientLight intensity={0.5} />
           <Scene onGroupReady={setGroupObject} />
         </Canvas>
 

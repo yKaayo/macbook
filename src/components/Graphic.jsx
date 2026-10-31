@@ -42,7 +42,7 @@ const Graphic = () => {
       console.error("Erro ao carregar imagens:", error);
       setImagesLoaded(true);
     });
-  }, [isMobile]);
+  }, [isMobile, images]);
 
   useGSAP(() => {
     if (isMobile || imgsRef.current.length === 0 || !imagesLoaded) return;

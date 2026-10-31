@@ -1,5 +1,6 @@
 import { useRef, useEffect, useCallback } from "react";
-import { PresentationControls } from "@react-three/drei";
+import { OrbitControls, PresentationControls } from "@react-three/drei";
+import { useThree } from "@react-three/fiber";
 import gsap from "gsap";
 import { useMediaQuery } from "react-responsive";
 import { useGSAP } from "@gsap/react";
@@ -17,13 +18,17 @@ const ModelSwitcher = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const isFirstRender = useRef(true);
 
-  const { selectedScale, position, rotation } = useSelector(
+  const invalidate = useThree((state) => state.invalidate);
+
+  const { selectedScale, selectedColor, position, rotation } = useSelector(
     (state) => state.laptop,
   );
   const showLargeMacbook = selectedScale === 0.08 || selectedScale === 0.05;
 
   const smallMacbookRef = useRef(null);
   const largeMacbookRef = useRef(null);
+
+  const initialShowLarge = useRef(showLargeMacbook);
 
   const controlsConfig = {
     snap: true,
@@ -61,14 +66,19 @@ const ModelSwitcher = () => {
   }, []);
 
   useEffect(() => {
-    if (showLargeMacbook) {
+    if (initialShowLarge.current) {
       setInitialState(largeMacbookRef.current, 0, 1);
       setInitialState(smallMacbookRef.current, -OFFSET_DISTANCE, 0);
     } else {
       setInitialState(smallMacbookRef.current, 0, 1);
       setInitialState(largeMacbookRef.current, OFFSET_DISTANCE, 0);
     }
-  }, []);
+    invalidate();
+  }, [invalidate, setInitialState]);
+
+  useEffect(() => {
+    invalidate();
+  }, [selectedColor, invalidate]);
 
   useGSAP(() => {
     if (isFirstRender.current) {
@@ -87,26 +97,47 @@ const ModelSwitcher = () => {
       fadeMeshes(smallMacbookRef.current, 1);
       fadeMeshes(largeMacbookRef.current, 0);
     }
-  }, [selectedScale, showLargeMacbook, moveGroup, fadeMeshes]);
+
+    gsap.to(
+      {},
+      {
+        duration: ANIMATION_DURATION,
+        onUpdate: invalidate,
+        onComplete: invalidate,
+      },
+    );
+  }, [selectedScale, showLargeMacbook, moveGroup, fadeMeshes, invalidate]);
 
   return (
-    <PresentationControls {...controlsConfig}>
-      <group ref={smallMacbookRef}>
-        <SmallMacbookModel
-          scale={isMobile ? 0.045 : 0.085}
-          position={position}
-          rotation={rotation}
+    <>
+      {!isMobile && (
+        <OrbitControls
+          enablePan={false}
+          enableZoom={false}
+          enableDamping
+          minPolarAngle={Math.PI / 3}
+          maxPolarAngle={Math.PI / 1.8}
         />
-      </group>
+      )}
 
-      <group ref={largeMacbookRef}>
-        <LargeMacbookModel
-          scale={isMobile ? 0.06 : 0.105}
-          position={position}
-          rotation={rotation}
-        />
-      </group>
-    </PresentationControls>
+      <PresentationControls enabled={isMobile} {...controlsConfig}>
+        <group ref={smallMacbookRef}>
+          <SmallMacbookModel
+            scale={isMobile ? 0.045 : 0.085}
+            position={position}
+            rotation={rotation}
+          />
+        </group>
+
+        <group ref={largeMacbookRef}>
+          <LargeMacbookModel
+            scale={isMobile ? 0.06 : 0.105}
+            position={position}
+            rotation={rotation}
+          />
+        </group>
+      </PresentationControls>
+    </>
   );
 };
 

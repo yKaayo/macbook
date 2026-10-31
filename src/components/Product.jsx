@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Canvas } from "@react-three/fiber";
+import { useMediaQuery } from "react-responsive";
 
 // Slice
 import { setColor, setScale } from "../store/slices/laptopSlice";
@@ -11,6 +12,7 @@ import ModelSwitcher from "./three/ModelSwitcher";
 
 const Product = () => {
   const dispatch = useDispatch();
+  const isMobile = useMediaQuery({ maxWidth: 768 });
 
   const colors = ["light", "dark"];
   const sizes = ['14"', '16"'];
@@ -35,9 +37,11 @@ const Product = () => {
       id="mac"
       className="relative container mx-auto h-[100svh] min-h-[100svh] pt-[56px]"
     >
-      <h3 className="absolute top-10 left-5 w-4/5 text-3xl font-semibold text-balance text-white md:text-5xl">
-        Dê uma olhada mais de perto
-      </h3>
+      <div className="absolute top-15 left-0 w-full">
+        <h3 className="text-center text-3xl font-semibold text-balance text-white md:text-5xl">
+          Dê uma olhada mais de perto
+        </h3>
+      </div>
 
       {/* 3D */}
       <div className="h-[calc(100svh-56px)] w-full">
@@ -45,9 +49,9 @@ const Product = () => {
           dpr={[1, 1.5]}
           frameloop="demand"
           gl={{ antialias: false, powerPreference: "high-performance" }}
-          style={{ touchAction: "none" }}
+          style={{ touchAction: "pan-y" }}
         >
-          <StudioLights />
+          <StudioLights followCamera={!isMobile} />
           <ModelSwitcher />
         </Canvas>
       </div>

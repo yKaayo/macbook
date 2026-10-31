@@ -8,11 +8,12 @@ import graphicImg1 from "../assets/images/graphicImg1.webp";
 import graphicImg2 from "../assets/images/graphicImg2.webp";
 import graphicImg3 from "../assets/images/graphicImg3.webp";
 
+const images = [graphicImg1, graphicImg2, graphicImg3];
+
 const Graphic = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const imgsRef = useRef([]);
   const [imagesLoaded, setImagesLoaded] = useState(false);
-  const images = [graphicImg1, graphicImg2, graphicImg3];
 
   useEffect(() => {
     if (isMobile) {
@@ -42,86 +43,56 @@ const Graphic = () => {
       console.error("Erro ao carregar imagens:", error);
       setImagesLoaded(true);
     });
-  }, [isMobile, images]);
+  }, [isMobile]);
 
   useGSAP(() => {
-    if (isMobile || imgsRef.current.length === 0 || !imagesLoaded) return;
+    const mm = gsap.matchMedia();
 
-    gsap.set(imgsRef.current, {
-      opacity: 0.5,
-      scale: 0.8,
-      y: 200,
+    mm.add("(min-width: 769px)", () => {
+      const imgs = imgsRef.current.filter(Boolean);
+      if (imgs.length < 3) return;
+
+      gsap.set(imgs, { opacity: 0.5, scale: 0.8, y: 200 });
+      gsap.set(imgs[0], { x: -100 });
+      gsap.set(imgs[1], { opacity: 1, y: 150 });
+      gsap.set(imgs[2], { x: 100 });
+
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: "#grafico",
+            start: "top top",
+            end: "+=150%",
+            scrub: true,
+            pin: true,
+            invalidateOnRefresh: true,
+            refreshPriority: 3, // maior = recalculado primeiro (de cima para baixo)
+          },
+        })
+        .to(
+          imgs[0],
+          { x: "-50%", y: 0, rotate: -15, opacity: 0.5, scale: 0.8, ease: "power2.in" },
+          0,
+        )
+        .to(
+          imgs[1],
+          { x: 0, y: 0, rotate: 0, opacity: 1, scale: 1, ease: "power2.in" },
+          0,
+        )
+        .to(
+          imgs[2],
+          { x: "50%", y: 0, rotate: 15, opacity: 0.5, scale: 0.8, ease: "power2.in" },
+          0,
+        )
+        .fromTo(
+          "#graphicContent",
+          { opacity: 0 },
+          { opacity: 1, ease: "power2.in" },
+        );
     });
 
-    gsap.set(imgsRef.current[0], {
-      x: -100,
-    });
-    gsap.set(imgsRef.current[1], {
-      opacity: 1,
-      y: 150,
-    });
-    gsap.set(imgsRef.current[2], {
-      x: 100,
-    });
-
-    const timeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: "#grafico",
-        start: "top top",
-        end: "+=150%",
-        scrub: true,
-        pin: true,
-      },
-    });
-
-    timeline
-      .to(
-        imgsRef.current[0],
-        {
-          x: "-50%",
-          y: 0,
-          rotate: -15,
-          opacity: 0.5,
-          scale: 0.8,
-          ease: "power2.in",
-        },
-        0,
-      )
-      .to(
-        imgsRef.current[1],
-        {
-          x: 0,
-          y: 0,
-          rotate: 0,
-          opacity: 1,
-          scale: 1,
-          ease: "power2.in",
-        },
-        0,
-      )
-      .to(
-        imgsRef.current[2],
-        {
-          x: "50%",
-          y: 0,
-          rotate: 15,
-          opacity: 0.5,
-          scale: 0.8,
-          ease: "power2.in",
-        },
-        0,
-      )
-      .fromTo(
-        "#graphicContent",
-        {
-          opacity: 0,
-        },
-        {
-          opacity: 1,
-          ease: "power2.in",
-        },
-      );
-  }, [isMobile, imagesLoaded]);
+    return () => mm.revert();
+  });
 
   return (
     <section

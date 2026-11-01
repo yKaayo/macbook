@@ -23,6 +23,23 @@ const Scene = ({ onGroupReady, onInvalidateReady }) => {
   }, [invalidate, onInvalidateReady]);
 
   useEffect(() => {
+    let frame;
+    let frameCount = 0;
+
+    const warmUpScene = () => {
+      invalidate();
+      frameCount += 1;
+      if (frameCount < 4) {
+        frame = requestAnimationFrame(warmUpScene);
+      }
+    };
+
+    frame = requestAnimationFrame(warmUpScene);
+
+    return () => cancelAnimationFrame(frame);
+  }, [invalidate]);
+
+  useEffect(() => {
     if (groupRef.current) {
       onGroupReady(groupRef.current);
     }
@@ -31,7 +48,7 @@ const Scene = ({ onGroupReady, onInvalidateReady }) => {
 
   return (
     <>
-      <StudioLights />
+      <StudioLights environmentFrames={4} />
       <ambientLight intensity={0.5} />
       {isMobile && (
         <directionalLight

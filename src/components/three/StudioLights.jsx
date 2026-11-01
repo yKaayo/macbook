@@ -47,10 +47,10 @@ const Spots = ({ offset = [0, 0, 0] }) => {
   );
 };
 
-const StudioLights = ({ followCamera = false }) => {
+const StudioLights = ({ followCamera = false, environmentFrames = 1 }) => {
   return (
     <group>
-      <Environment resolution={256}>
+      <Environment resolution={256} frames={environmentFrames}>
         <group>
           <Lightformer
             form="rect"

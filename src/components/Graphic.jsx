@@ -12,6 +12,8 @@ const images = [graphicImg1, graphicImg2, graphicImg3];
 
 const Graphic = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
+  const sectionRef = useRef(null);
+  const contentRef = useRef(null);
   const imgsRef = useRef([]);
   const [imagesLoaded, setImagesLoaded] = useState(false);
 
@@ -49,18 +51,24 @@ const Graphic = () => {
     const mm = gsap.matchMedia();
 
     mm.add("(min-width: 769px)", () => {
-      const imgs = imgsRef.current.filter(Boolean);
-      if (imgs.length < 3) return;
+      const [firstImg, middleImg, lastImg] = imgsRef.current;
+      if (!firstImg || !middleImg || !lastImg) return;
 
-      gsap.set(imgs, { opacity: 0.5, scale: 0.8, y: 200 });
-      gsap.set(imgs[0], { x: -100 });
-      gsap.set(imgs[1], { opacity: 1, y: 150 });
-      gsap.set(imgs[2], { x: 100 });
+      gsap.set([firstImg, middleImg, lastImg], {
+        opacity: 0.5,
+        scale: 0.8,
+        x: 0,
+        y: 200,
+        rotate: 0,
+      });
+      gsap.set(firstImg, { x: -100 });
+      gsap.set(middleImg, { opacity: 1, y: 150 });
+      gsap.set(lastImg, { x: 100 });
 
       gsap
         .timeline({
           scrollTrigger: {
-            trigger: "#grafico",
+            trigger: sectionRef.current,
             start: "top top",
             end: "+=150%",
             scrub: true,
@@ -70,32 +78,33 @@ const Graphic = () => {
           },
         })
         .to(
-          imgs[0],
+          firstImg,
           { x: "-50%", y: 0, rotate: -15, opacity: 0.5, scale: 0.8, ease: "power2.in" },
           0,
         )
         .to(
-          imgs[1],
+          middleImg,
           { x: 0, y: 0, rotate: 0, opacity: 1, scale: 1, ease: "power2.in" },
           0,
         )
         .to(
-          imgs[2],
+          lastImg,
           { x: "50%", y: 0, rotate: 15, opacity: 0.5, scale: 0.8, ease: "power2.in" },
           0,
         )
         .fromTo(
-          "#graphicContent",
+          contentRef.current,
           { opacity: 0 },
           { opacity: 1, ease: "power2.in" },
         );
     });
 
     return () => mm.revert();
-  });
+  }, { dependencies: [isMobile], scope: sectionRef });
 
   return (
     <section
+      ref={sectionRef}
       id="grafico"
       className="container mx-auto flex min-h-svh flex-col items-center justify-center pt-[56px]"
     >
@@ -121,7 +130,7 @@ const Graphic = () => {
         ))}
       </div>
 
-      <div id="graphicContent" className="mx-auto mt-20 w-4/5">
+      <div ref={contentRef} id="graphicContent" className="mx-auto mt-20 w-4/5">
         <p className="text-center text-balance">
           Gráficos no limite da realidade. Seus fluxos de trabalho mais intensos
           agora rodam com uma fluidez instantânea que acompanha a sua

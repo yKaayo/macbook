@@ -27,6 +27,12 @@ const Scene = ({ onGroupReady }) => {
     <>
       <StudioLights />
       <ambientLight intensity={0.5} />
+      {isMobile && (
+        <directionalLight
+          position={[2, 4, 5]}
+          intensity={2}
+        />
+      )}
       <group ref={groupRef}>
         <MacbookModel
           scale={isMobile ? 0.045 : 0.1}

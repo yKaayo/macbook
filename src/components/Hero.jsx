@@ -21,9 +21,9 @@ const Hero = ({ onReady }) => {
 
   return (
     <main className="container mx-auto flex min-h-dvh flex-col items-center justify-center gap-3 px-3 pt-[56px] md:gap-5 md:px-0">
-      <h2 className="text-[clamp(16px,1.8vw,3rem)] font-semibold text-white">
+      <p className="text-[clamp(16px,1.8vw,3rem)] font-semibold text-white">
         Macbook Pro
-      </h2>
+      </p>
 
       <div className="relative">
         <span
@@ -56,7 +56,8 @@ const Hero = ({ onReady }) => {
         ref={videoRef}
         src={heroVideo}
         autoPlay
-        preload="auto"
+        preload="metadata"
+        fetchPriority="high"
         playsInline
         muted
         onCanPlayThrough={onReady}
@@ -66,7 +67,6 @@ const Hero = ({ onReady }) => {
 
       <button
         className="relative z-1 rounded-full bg-blue-600 px-4 py-1.5 text-lg font-semibold text-white"
-        aria-label="Comprar Macbook Pro agora"
       >
         Comprar agora
       </button>

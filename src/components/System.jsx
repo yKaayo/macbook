@@ -3,7 +3,7 @@ import gsap from "gsap";
 import { useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { useRef, useEffect, useState } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 
 // Components
 import StudioLights from "./three/StudioLights";
@@ -12,16 +12,22 @@ import MacbookModel from "./models/Macbook";
 // Constants
 import { features } from "../constants/index";
 
-const Scene = ({ onGroupReady }) => {
+const Scene = ({ onGroupReady, onInvalidateReady }) => {
   const groupRef = useRef(null);
   const isMobile = useMediaQuery({ maxWidth: 768 });
+  const invalidate = useThree((state) => state.invalidate);
   const { position, rotation } = useSelector((state) => state.laptop);
+
+  useEffect(() => {
+    onInvalidateReady(invalidate);
+  }, [invalidate, onInvalidateReady]);
 
   useEffect(() => {
     if (groupRef.current) {
       onGroupReady(groupRef.current);
     }
-  }, [onGroupReady]);
+    invalidate();
+  }, [invalidate, onGroupReady]);
 
   return (
     <>
@@ -46,6 +52,7 @@ const Scene = ({ onGroupReady }) => {
 
 const System = () => {
   const containerRef = useRef(null);
+  const invalidateRef = useRef(() => {});
   const [groupObject, setGroupObject] = useState(null);
 
   useGSAP(() => {
@@ -60,6 +67,7 @@ const System = () => {
         pin: true,
         pinSpacing: false,
         refreshPriority: 1,
+        onUpdate: () => invalidateRef.current(),
       },
     });
 
@@ -92,9 +100,14 @@ const System = () => {
       <h2>See it all in a new light.</h2>
 
       <div ref={containerRef} className="relative h-[calc(100dvh-56px)] w-full">
-        <Canvas style={{ touchAction: "none" }}>
+        <Canvas frameloop="demand" style={{ touchAction: "none" }}>
           <ambientLight intensity={0.5} />
-          <Scene onGroupReady={setGroupObject} />
+          <Scene
+            onGroupReady={setGroupObject}
+            onInvalidateReady={(invalidate) => {
+              invalidateRef.current = invalidate;
+            }}
+          />
         </Canvas>
 
         <div className="absolute inset-0">
@@ -108,9 +121,9 @@ const System = () => {
                 alt={feature.highlight}
                 className="mb-2 size-8 md:size-10"
               />
-              <h4 className="mb-1 text-lg font-semibold md:text-2xl">
+              <h3 className="mb-1 text-lg font-semibold md:text-2xl">
                 {feature.highlight}
-              </h4>
+              </h3>
               <p className="text-sm md:text-base">{feature.text}</p>
             </div>
           ))}

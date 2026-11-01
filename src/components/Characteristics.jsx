@@ -49,9 +49,9 @@ const Characteristics = () => {
         >
           <div className="absolute bottom-0 z-1 flex flex-col gap-1 px-10 py-5">
             <img src={laptopIcon} className="size-20" alt="Laptop" />
-            <h4 className="text">
+            <h3 className="text">
               Termine suas demandas <br /> 9.8x mais rápido
-            </h4>
+            </h3>
           </div>
 
           <div className="absolute bottom-0 h-[70%] w-full rounded-b-lg bg-gradient-to-t from-zinc-800/95 via-zinc-800/95 to-transparent"></div>
@@ -60,32 +60,32 @@ const Characteristics = () => {
         <div className="characteristicsCard animate-gradient-rotate m-1 bg-gradient-to-r from-blue-700 via-purple-700 via-35% to-orange-600 to-90% p-[2px]">
           <div className="relative z-10 flex size-full items-center gap-3 rounded-lg bg-zinc-800 px-10 py-5">
             <img src={iaImg} alt="IA" className="w-20" />
-            <h4 className="text">
+            <h3 className="text">
               Feito com <br />{" "}
               <span className="animate-gradient-rotate bg-gradient-to-r from-blue-700 via-purple-700 via-35% to-orange-600 to-90% bg-clip-text text-transparent">
                 Inteligência Apple
               </span>
-            </h4>
+            </h3>
           </div>
         </div>
 
         <div className="characteristicsCard relative flex items-center rounded-lg bg-zinc-800 md:row-span-2 md:items-end">
           <div className="flex items-center gap-5 px-10 py-5">
             <img src={batteryImg} alt="Bateria" className="w-20" />
-            <h4 className="text">
+            <h3 className="text">
               Bateria com <br />
               <span className="animate-gradient-rotate bg-gradient-to-r from-green-400 via-emerald-500 to-green-600 bg-clip-text text-transparent">
                 24h de duração
               </span>
-            </h4>
+            </h3>
           </div>
         </div>
 
         <div className="characteristicsCard flex items-center gap-5 bg-zinc-800 px-10 py-5 md:col-start-1 md:row-start-3">
           <img src={sunIcon} className="size-20" alt="Tela Retina" />
-          <h4 className="text">
+          <h3 className="text">
             Uma incrível <br /> tela de retina líquida
-          </h4>
+          </h3>
         </div>
       </div>
     </section>

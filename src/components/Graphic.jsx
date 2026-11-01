@@ -108,9 +108,9 @@ const Graphic = () => {
       id="grafico"
       className="container mx-auto flex min-h-svh flex-col items-center justify-center pt-[56px]"
     >
-      <h3 className="mx-auto mb-10 w-4/5 text-center">
+      <h2 className="mx-auto mb-10 w-4/5 text-center text-3xl font-semibold text-balance text-white md:text-5xl">
         O próximo nível de gráficos de alta definição
-      </h3>
+      </h2>
 
       <div className="relative grid h-full w-full grid-cols-2 md:block md:place-items-center">
         {!imagesLoaded && !isMobile && (

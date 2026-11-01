@@ -17,6 +17,7 @@ const Showcase = () => {
 
   const [leftHeight, setLeftHeight] = useState(0);
   const chipMaskRef = useRef(null);
+  const videoRef = useRef(null);
 
   const calculateLeftHeight = useCallback(() => {
     if (!chipMaskRef.current) return;
@@ -32,6 +33,27 @@ const Showcase = () => {
     window.addEventListener("resize", calculateLeftHeight);
     return () => window.removeEventListener("resize", calculateLeftHeight);
   }, [isMobile, calculateLeftHeight]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch((error) => {
+            console.warn("Não foi possível iniciar o vídeo do showcase:", error);
+          });
+        } else {
+          video.pause();
+        }
+      },
+      { rootMargin: "200px 0px" },
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
 
   useGSAP(() => {
     const mm = gsap.matchMedia();
@@ -77,11 +99,12 @@ const Showcase = () => {
         className="relative flex items-end justify-center overflow-hidden md:h-screen"
       >
         <video
+          ref={videoRef}
           id="videoMasked"
-          autoPlay
           loop
           muted
           playsInline
+          preload="none"
           className="absolute h-full object-cover"
           style={{
             maskImage: `url(${chipImg})`,
@@ -144,7 +167,7 @@ const Showcase = () => {
               tracing acelerado por hardware traz gráficos de nível de console
               para as suas mãos.
             </p>
-            <a href="#" className="text-blue-600 underline">
+            <a href="#" className="text-blue-400 underline">
               Saiba mais sobre o Apple Intelligence
             </a>
           </div>

@@ -38,9 +38,9 @@ const Product = () => {
       className="relative container mx-auto h-[100svh] min-h-[100svh] pt-[56px]"
     >
       <div className="absolute top-15 left-0 w-full">
-        <h3 className="text-center text-3xl font-semibold text-balance text-white md:text-5xl">
+        <h2 className="text-center text-3xl font-semibold text-balance text-white md:text-5xl">
           Dê uma olhada mais de perto
-        </h3>
+        </h2>
       </div>
 
       {/* 3D */}
@@ -67,6 +67,7 @@ const Product = () => {
               <button
                 key={i}
                 onClick={() => handleLaptopColor(color)}
+                aria-label={`Selecionar MacBook ${color === "light" ? "claro" : "escuro"}`}
                 className={`size-7 rounded-full transition-all duration-300 ease-in-out ${color === "light" ? "bg-neutral-300" : "bg-neutral-900"} ${selectedBtn.color === color ? "ring-2 ring-neutral-500 ring-offset-2" : ""}`}
               ></button>
             ))}
